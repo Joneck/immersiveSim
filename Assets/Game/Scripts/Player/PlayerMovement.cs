@@ -16,6 +16,9 @@ public class PlayerMovement : MonoBehaviour
     Vector3 velocity;
     Rigidbody rb;
 
+    float vertical;
+    float horizontal;
+
     public bool isGrounded;
 
 
@@ -24,10 +27,26 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.Space))
+        {
+            if (isGrounded)
+            {
+                isGrounded = false;
+                rb.AddForce(transform.up * jumpForce);
+                if (vertical > 0)
+                {
+                    rb.AddForce(transform.forward * jumpForce / 2);
+                }
+            }
+        }
+    }
+
     private void FixedUpdate()
     {
-        float vertical = Input.GetAxis("Vertical");
-        float horizontal = Input.GetAxis("Horizontal");
+        vertical = Input.GetAxis("Vertical");
+        horizontal = Input.GetAxis("Horizontal");
 
         moveDirection = orientation.forward * vertical + orientation.right * horizontal;
 
@@ -40,18 +59,6 @@ public class PlayerMovement : MonoBehaviour
             actualSpeed = speed;
         }
 
-
-        if (Input.GetAxis("Jump") > 0)
-        {
-            if (isGrounded)
-            {
-                rb.AddForce(transform.up * jumpForce);
-                if(vertical > 0)
-                {
-                    rb.AddForce(transform.forward * jumpForce / 2);
-                }
-            }
-        }
         if (isGrounded)
         {
             Vector3 velocity = moveDirection * actualSpeed * Time.fixedDeltaTime;
@@ -66,7 +73,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.layer == 7)
         {
@@ -74,7 +81,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void OnCollisionExit(Collision collision)
+    private void OnTriggerExit(Collider collision)
     {
         if (collision.gameObject.layer == 7)
         {
