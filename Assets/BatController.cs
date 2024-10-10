@@ -24,7 +24,10 @@ public class BatController : MonoBehaviour
             else
                 Debug.Log("fired");
                 anim.SetTrigger("Swing");
+                anim.ResetTrigger("Swing");
                 fireDown = false;
         }
     }
+
+
 }
