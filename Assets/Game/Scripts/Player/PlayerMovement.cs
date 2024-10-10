@@ -1,22 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
-    public float moveSpeed;
+    public float speed;
+    public float sprintSpeed;
+    private float actualSpeed;
     public float jumpForce;
 
     public float GroundDrag;
     public Transform orientation;
-    private float horizontalInput;
-    private float verticalInput;
     private Vector3 moveDirection;
+    Vector3 velocity;
     Rigidbody rb;
 
-    public float gravityScale;
-    public static float globalGravity = -9.81f;
+    public bool isGrounded;
 
 
     private void Start()
@@ -24,40 +25,61 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    private void Update()
-    {
-        MyInput();
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            rb.AddForce(jumpForce * Vector3.up);
-        }
-    }
-
     private void FixedUpdate()
     {
-        MovePlayer();
+        float vertical = Input.GetAxis("Vertical");
+        float horizontal = Input.GetAxis("Horizontal");
+
+        moveDirection = orientation.forward * vertical + orientation.right * horizontal;
+
+        if(Input.GetKey(KeyCode.LeftShift))
+        {
+            actualSpeed = sprintSpeed;
+        }
+        else
+        {
+            actualSpeed = speed;
+        }
+
+
+        if (Input.GetAxis("Jump") > 0)
+        {
+            if (isGrounded)
+            {
+                rb.AddForce(transform.up * jumpForce);
+                if(vertical > 0)
+                {
+                    rb.AddForce(transform.forward * jumpForce / 2);
+                }
+            }
+        }
+        if (isGrounded)
+        {
+            Vector3 velocity = (moveDirection * vertical) * actualSpeed * Time.fixedDeltaTime;
+            velocity.y = rb.velocity.y;
+            rb.velocity = velocity;
+        }
+        else
+        {
+            Vector3 velocity = (moveDirection) * actualSpeed * Time.fixedDeltaTime;
+            velocity.y = rb.velocity.y;
+            rb.velocity = velocity;
+        }
     }
 
-    public void MyInput()
+    private void OnCollisionEnter(Collision collision)
     {
-        horizontalInput = Input.GetAxisRaw("Horizontal");
-        verticalInput = Input.GetAxisRaw("Vertical");
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (collision.gameObject.CompareTag("Ground"))
         {
-            moveSpeed = moveSpeed*1.4f;
-        }
-        if (Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            moveSpeed = moveSpeed/1.4f;
+            isGrounded = true;
         }
     }
 
-    public void MovePlayer()
+    private void OnCollisionExit(Collision collision)
     {
-        moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
-        rb.AddForce(moveSpeed * 10f * moveDirection.normalized, ForceMode.Force);
-
-        Vector3 gravity = globalGravity * gravityScale * Vector3.up;
-        rb.AddForce(gravity, ForceMode.Acceleration);
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = false;
+        }
     }
 }
