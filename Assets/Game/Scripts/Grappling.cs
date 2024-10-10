@@ -18,9 +18,13 @@ public class Grappling : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.DrawRay(cam.transform.position,cam.transform.forward,Color.cyan,0);
+
         if(Input.GetMouseButtonDown(1))
         {
-            rb.AddForce(cam.transform.forward * 450);
+
+
+            rb.AddForce(cam.transform.forward * 45, ForceMode.Impulse);
             Debug.Log("grappled");
         }
     }
