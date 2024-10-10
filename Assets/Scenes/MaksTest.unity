@@ -436,6 +436,7 @@ GameObject:
   - component: {fileID: 1130083434}
   - component: {fileID: 1130083433}
   - component: {fileID: 1130083435}
+  - component: {fileID: 1130083439}
   - component: {fileID: 1130083437}
   - component: {fileID: 1130083436}
   m_Layer: 0
@@ -485,9 +486,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 150
-  sprintSpeed: 200
+  sprintSpeed: 300
   jumpForce: 130
-  GroundDrag: 4
   orientation: {fileID: 327494054}
   isGrounded: 1
 --- !u!136 &1130083435
@@ -580,6 +580,27 @@ Transform:
   - {fileID: 327494054}
   m_Father: {fileID: 1381152460}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1130083439
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1130083432}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 2, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1381152459
 GameObject:
   m_ObjectHideFlags: 0
@@ -626,7 +647,7 @@ GameObject:
   - component: {fileID: 1401012816}
   m_Layer: 0
   m_Name: Plane
-  m_TagString: Ground
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -751,7 +772,7 @@ GameObject:
   - component: {fileID: 1763292946}
   m_Layer: 0
   m_Name: Box
-  m_TagString: Ground
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

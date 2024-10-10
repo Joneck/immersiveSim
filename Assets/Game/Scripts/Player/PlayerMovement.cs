@@ -11,7 +11,6 @@ public class PlayerMovement : MonoBehaviour
     private float actualSpeed;
     public float jumpForce;
 
-    public float GroundDrag;
     public Transform orientation;
     private Vector3 moveDirection;
     Vector3 velocity;
@@ -55,13 +54,13 @@ public class PlayerMovement : MonoBehaviour
         }
         if (isGrounded)
         {
-            Vector3 velocity = (moveDirection * vertical) * actualSpeed * Time.fixedDeltaTime;
+            Vector3 velocity = moveDirection * actualSpeed * Time.fixedDeltaTime;
             velocity.y = rb.velocity.y;
             rb.velocity = velocity;
         }
         else
         {
-            Vector3 velocity = (moveDirection) * actualSpeed * Time.fixedDeltaTime;
+            Vector3 velocity = moveDirection * actualSpeed * Time.fixedDeltaTime;
             velocity.y = rb.velocity.y;
             rb.velocity = velocity;
         }
@@ -69,7 +68,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.layer == 7)
         {
             isGrounded = true;
         }
@@ -77,7 +76,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.layer == 7)
         {
             isGrounded = false;
         }
