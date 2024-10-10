@@ -59,18 +59,9 @@ public class PlayerMovement : MonoBehaviour
             actualSpeed = speed;
         }
 
-        if (isGrounded)
-        {
-            Vector3 velocity = moveDirection * actualSpeed * Time.fixedDeltaTime;
-            velocity.y = rb.velocity.y;
-            rb.velocity = velocity;
-        }
-        else
-        {
-            Vector3 velocity = moveDirection * actualSpeed * Time.fixedDeltaTime;
-            velocity.y = rb.velocity.y;
-            rb.velocity = velocity;
-        }
+        Vector3 velocity = moveDirection * actualSpeed * Time.fixedDeltaTime;
+        velocity.y = rb.velocity.y;
+        rb.velocity = velocity;
     }
 
     private void OnTriggerEnter(Collider collision)
