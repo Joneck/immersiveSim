@@ -21,6 +21,8 @@ public class PlayerMovement : MonoBehaviour
 
     public bool isGrounded;
 
+    public Animator anim;
+
 
     private void Start()
     {
@@ -40,6 +42,16 @@ public class PlayerMovement : MonoBehaviour
                     rb.AddForce(transform.forward * jumpForce / 2);
                 }
             }
+        }
+
+        if(Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            anim.SetTrigger("Crouch");
+        }
+
+        if(Input.GetKeyUp(KeyCode.LeftControl))
+        {
+            anim.SetTrigger("StandUp");
         }
     }
 
