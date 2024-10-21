@@ -9,6 +9,8 @@ public class Grappling : MonoBehaviour
     public GameObject cam;
     Rigidbody rb;
 
+    bool grapple = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,10 +24,18 @@ public class Grappling : MonoBehaviour
 
         if(Input.GetMouseButtonDown(1))
         {
+            grapple = true;
+        }
+    }
 
-
+    void FixedUpdate()
+    {
+        if(grapple)
+        {
+            grapple = false;
             rb.AddForce(cam.transform.forward * 45, ForceMode.Impulse);
             Debug.Log("grappled");
         }
+        
     }
 }
