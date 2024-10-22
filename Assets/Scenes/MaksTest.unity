@@ -1017,8 +1017,8 @@ MonoBehaviour:
   orientation: {fileID: 522803436}
   isGrounded: 1
   anim: {fileID: 562107241}
-  accelerationForce: 10
-  maxMovementSpeed: 50
+  accelerationForce: 4
+  maxMovementSpeed: 2
   maxSpeed: 7
 --- !u!1 &574656220
 GameObject:
