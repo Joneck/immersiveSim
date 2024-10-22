@@ -86,7 +86,7 @@ public class PlayerMovement : MonoBehaviour
     private void Movement()
     {
         moveDirection = orientation.forward * vertical + orientation.right * horizontal;
-        print(moveDirection);
+        //print(moveDirection);
         Vector3 velocity = moveDirection * accelerationForce * Time.fixedDeltaTime * 1600;
         
         rb.AddForce(velocity,ForceMode.Force);
