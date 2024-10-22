@@ -1300,6 +1300,9 @@ MonoBehaviour:
   orientation: {fileID: 419267676}
   isGrounded: 1
   anim: {fileID: 1326636539}
+  accelerationForce: 4
+  maxMovementSpeed: 2
+  maxSpeed: 7
 --- !u!65 &1326636538
 BoxCollider:
   m_ObjectHideFlags: 0
