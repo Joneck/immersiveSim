@@ -16,7 +16,7 @@ public class BatController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButtonUp(0))
+        if(Input.GetMouseButtonUp(0) && transform.parent.name == "Hand")
         {
             Debug.Log("fired");
             anim.SetTrigger("Swing");

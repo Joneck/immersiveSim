@@ -7,19 +7,39 @@ using UnityEngine;
 
 public class ItemManager : MonoBehaviour
 {
+    Camera cam;
+    public LayerMask IgnoringLayer;
+    public Transform Hand;
+
     public List<GameObject> items = new List<GameObject>();
 
-    private float fire;
+    //private float fire;
 
-    // Start is called before the first frame update
+    
     void Start()
     {
-        items.Add(GameObject.Find("Stick"));
+        cam = Camera.main;
     }
 
-    // Update is called once per frame
+    
     void Update()
-    { 
-        
+    {
+        Vector3 mousePos = Input.mousePosition;
+        mousePos.z = 10f;
+        mousePos = cam.ScreenToWorldPoint(mousePos);
+
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 100, ~IgnoringLayer))
+        {
+            if(hit.transform.gameObject.layer == 6 && Input.GetKeyDown(KeyCode.E))
+            {
+                GameObject newItem = hit.transform.gameObject;
+                Destroy(newItem.GetComponent<Rigidbody>());
+                newItem.transform.SetParent(Hand);
+                newItem.transform.localPosition = Vector3.zero;
+                items.Add(newItem);
+            }
+        }
     }
 }
