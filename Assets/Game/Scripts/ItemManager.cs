@@ -39,6 +39,8 @@ public class ItemManager : MonoBehaviour
                 newItem.transform.SetParent(Hand);
                 newItem.transform.localPosition = Vector3.zero;
                 items.Add(newItem);
+
+                newItem.transform.localEulerAngles = newItem.GetComponent<ItemStats>().BasicRotation;
             }
         }
     }
