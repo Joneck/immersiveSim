@@ -15,7 +15,7 @@ public class Arrow : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         //Debug.Log(collision.transform.name);
-        if(collision.gameObject.layer != 8)
+        if(collision.gameObject.layer != 8 && collision.gameObject.layer != 6)
         {
             StartCoroutine(DestroySelf());
         }

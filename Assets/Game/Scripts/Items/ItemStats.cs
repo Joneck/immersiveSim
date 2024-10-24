@@ -5,14 +5,4 @@ using UnityEngine;
 public class ItemStats : MonoBehaviour
 {
     public Vector3 BasicRotation;
-    
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
 }
