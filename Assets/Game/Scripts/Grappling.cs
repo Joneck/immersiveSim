@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Sockets;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ public class Grappling : MonoBehaviour
     public GameObject player;
     public GameObject cam;
     Rigidbody rb;
+    PlayerMovement movement;
 
     bool grapple = false;
 
@@ -15,6 +17,7 @@ public class Grappling : MonoBehaviour
     void Start()
     {
         rb = player.GetComponent<Rigidbody>();
+        movement = player.GetComponent<PlayerMovement>();
     }
 
     // Update is called once per frame
@@ -25,7 +28,15 @@ public class Grappling : MonoBehaviour
         if(Input.GetMouseButtonDown(1))
         {
             grapple = true;
+            
         }
+    }
+
+    IEnumerator SuperSpeed()
+    {
+        movement.SwitchSpeedLockOFF();
+        yield return new WaitForSeconds(3);
+        movement.SwitchSpeedLockON();
     }
 
     void FixedUpdate()
@@ -35,6 +46,8 @@ public class Grappling : MonoBehaviour
             grapple = false;
             rb.AddForce(cam.transform.forward * 45, ForceMode.Impulse);
             Debug.Log("grappled");
+
+
         }
         
     }

@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
 
     public Transform orientation;
     private Vector3 moveDirection;
+    private bool speedLocked = false;
     Vector3 velocity;
     Rigidbody rb;
 
@@ -93,15 +94,29 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
+    public void SwitchSpeedLockON()
+    {
+        speedLocked = true;
+    }
+
+    public void SwitchSpeedLockOFF()
+    {
+        speedLocked = false;
+    }
+
     private void SpeedControl()
     {
         Vector3 flatVel = new Vector3(rb.velocity.x,0,rb.velocity.z);
         
-        if(flatVel.magnitude > maxMovementSpeed)
+        if(!speedLocked)
         {
+            if(flatVel.magnitude > maxMovementSpeed)
+            {
             Vector3 limitedVel = flatVel.normalized * maxMovementSpeed;
             rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
+            }
         }
+        
     }
 
     private void OnTriggerEnter(Collider collision)
