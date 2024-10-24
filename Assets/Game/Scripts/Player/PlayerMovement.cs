@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
 
     public Transform orientation;
     private Vector3 moveDirection;
-    private bool speedLocked = false;
+    private bool speedLocked = true;
     Vector3 velocity;
     Rigidbody rb;
 
@@ -108,7 +108,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector3 flatVel = new Vector3(rb.velocity.x,0,rb.velocity.z);
         
-        if(!speedLocked)
+        if(speedLocked)
         {
             if(flatVel.magnitude > maxMovementSpeed)
             {

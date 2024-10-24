@@ -492,7 +492,7 @@ GameObject:
   - component: {fileID: 584521802}
   - component: {fileID: 584521801}
   m_Layer: 6
-  m_Name: Grappling
+  m_Name: GrapplingGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -506,13 +506,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 584521799}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.4120558, z: -0, w: 0.91115856}
-  m_LocalPosition: {x: -0.116, y: -0.319, z: 0.284}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.116000175, y: -0.319, z: 0.2840004}
   m_LocalScale: {x: 0.2, y: 0.01, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1286784739}
-  m_LocalEulerAnglesHint: {x: 0, y: -48.668, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &584521801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -527,6 +527,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1326636531}
   cam: {fileID: 599154613}
+  Hook: {fileID: 2041673486237989095, guid: cda027c12612cdc408e068c9c5497871, type: 3}
 --- !u!65 &584521802
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -627,7 +628,7 @@ Transform:
   m_GameObject: {fileID: 599154613}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.57900023, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -761,7 +762,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1123103031}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Environment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -975,7 +976,7 @@ GameObject:
   - component: {fileID: 1239238977}
   - component: {fileID: 1239238976}
   - component: {fileID: 1239238980}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1141,6 +1142,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ce229398ffc2b34bbce0d82d3cf95cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IgnoringLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  Hand: {fileID: 0}
   items: []
 --- !u!1 &1326636531
 GameObject:
@@ -1358,7 +1363,7 @@ GameObject:
   - component: {fileID: 1395725024}
   - component: {fileID: 1395725023}
   - component: {fileID: 1395725027}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1491,7 +1496,7 @@ GameObject:
   - component: {fileID: 1437242258}
   - component: {fileID: 1437242257}
   - component: {fileID: 1437242261}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1670,7 +1675,7 @@ GameObject:
   - component: {fileID: 1666135858}
   - component: {fileID: 1666135857}
   - component: {fileID: 1666135861}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1946,7 +1951,7 @@ GameObject:
   - component: {fileID: 1911488111}
   - component: {fileID: 1911488110}
   - component: {fileID: 1911488114}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2112,7 +2117,7 @@ GameObject:
   - component: {fileID: 1998387402}
   - component: {fileID: 1998387401}
   - component: {fileID: 1998387405}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

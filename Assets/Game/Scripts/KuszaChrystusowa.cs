@@ -11,7 +11,7 @@ public class KuszaChrystusowa : MonoBehaviour
     {
         if (Input.GetMouseButton(0) && transform.parent.name == "Hand")
         {
-            GameObject NewArrow = Instantiate(Arrow, ArrowPlace);
+            GameObject NewArrow = Instantiate(Arrow, gameObject.transform);
             NewArrow.transform.position = ArrowPlace.transform.position;
         }
     }
