@@ -51,7 +51,7 @@ public class ItemManager : MonoBehaviour
                 HoldingItem = Items[ActualSlot];
                 HoldingItem.SetActive(true);
             }
-            if (Input.GetAxis("Mouse ScrollWheel") < 0)
+            if(Input.GetAxis("Mouse ScrollWheel") < 0)
             {
                 ActualSlot = ActualSlot - 1 > -1 ? ActualSlot-=1 : ActualSlot = Items.Count-1;
                 HoldingItem.SetActive(false);
