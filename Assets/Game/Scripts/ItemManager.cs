@@ -90,7 +90,6 @@ public class ItemManager : MonoBehaviour
 
         Items.RemoveAt(ActualSlot);
         ActualSlot = ActualSlot + 1 < Items.Count ? ActualSlot += 1 : ActualSlot = 0;
-        Debug.Log(Items.Count);
         HoldingItem = Items.Count > 0 ? Items[ActualSlot] : null;
         if(HoldingItem!= null)
         {

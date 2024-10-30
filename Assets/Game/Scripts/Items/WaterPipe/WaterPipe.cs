@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KuszaChrystusowa : MonoBehaviour
+public class WaterPipe : MonoBehaviour
 {
     public GameObject Arrow;
     public Transform ArrowPlace;
@@ -15,5 +15,4 @@ public class KuszaChrystusowa : MonoBehaviour
             NewArrow.transform.position = ArrowPlace.transform.position;
         }
     }
-
 }
