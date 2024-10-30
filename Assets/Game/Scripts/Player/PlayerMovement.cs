@@ -59,15 +59,8 @@ public class PlayerMovement : MonoBehaviour
 
         vertical = Input.GetAxis("Vertical");
         horizontal = Input.GetAxis("Horizontal");
-    }
 
-    private void FixedUpdate()
-    {
-        /*
-
-        
-
-        if(Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift))
         {
             actualSpeed = sprintSpeed;
         }
@@ -75,7 +68,11 @@ public class PlayerMovement : MonoBehaviour
         {
             actualSpeed = speed;
         }
+    }
 
+    private void FixedUpdate()
+    {
+        /*
         Vector3 velocity = moveDirection * actualSpeed * Time.fixedDeltaTime;
         velocity.y = rb.velocity.y;
         rb.velocity = velocity;*/
