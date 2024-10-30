@@ -16,11 +16,15 @@ public class PlayerMovement : MonoBehaviour
     private bool speedLocked = true;
     Vector3 velocity;
     Rigidbody rb;
+    Transform top;
 
     float vertical;
     float horizontal;
 
+    RaycastHit hit;
+
     public bool isGrounded;
+    bool wantToStandUp = false;
 
     public Animator anim;
 
@@ -30,6 +34,8 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        top = GameObject.Find("Top").GetComponent<Transform>();
+
     }
 
     private void Update()
@@ -49,13 +55,24 @@ public class PlayerMovement : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.LeftControl))
         {
+            wantToStandUp = true;
             anim.SetTrigger("Crouch");
         }
 
-        if(Input.GetKeyUp(KeyCode.LeftControl))
+        if(Input.GetKeyUp(KeyCode.LeftControl))//
         {
-            anim.SetTrigger("StandUp");
+            wantToStandUp = false;
+
+            if(Physics.CheckCapsule(top.position, top.position + Vector3.up * 0.6f, 0.8f,LayerMask.GetMask("Ground")))
+            {
+                Debug.Log("Can't stand up");
+                
+            }else{
+                print(hit.collider);
+                anim.SetTrigger("StandUp");
+            }            
         }
+
 
         vertical = Input.GetAxis("Vertical");
         horizontal = Input.GetAxis("Horizontal");
@@ -72,11 +89,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        /*
-        Vector3 velocity = moveDirection * actualSpeed * Time.fixedDeltaTime;
-        velocity.y = rb.velocity.y;
-        rb.velocity = velocity;*/
-
         Movement();
         SpeedControl();
     }
