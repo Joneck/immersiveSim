@@ -64,6 +64,16 @@ public class ItemManager : MonoBehaviour
                 DropItem();
             }
         }
+
+        if(Input.GetAxisRaw("GrabObject") == 1.0f)
+        {
+            if(Physics.Raycast(transform.position, transform.forward, out hit, 2f,LayerMask.GetMask("Object")))
+            {
+                Debug.Log("Want to grab");
+                //hit.transform.SetParent(gameObject.transform);
+            }
+            
+        }
     }
 
     void GrabItem(GameObject newItem)
@@ -95,5 +105,11 @@ public class ItemManager : MonoBehaviour
         {
             HoldingItem.SetActive(true);
         }
+    }
+
+    void GrabObject(GameObject thing)
+    {
+        thing.transform.SetParent(gameObject.transform);
+        
     }
 }
