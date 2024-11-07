@@ -35,7 +35,6 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         top = GameObject.Find("Top").GetComponent<Transform>();
-
     }
 
     private void Update()
