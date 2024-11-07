@@ -54,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.LeftControl))
         {
-            wantToStandUp = true;
+            wantToStandUp = false;
             anim.SetTrigger("Crouch");
         }
 
@@ -65,6 +65,7 @@ public class PlayerMovement : MonoBehaviour
             if(Physics.CheckCapsule(top.position, top.position + Vector3.up * 0.6f, 0.8f,LayerMask.GetMask("Ground")))
             {
                 Debug.Log("Can't stand up");
+                wantToStandUp = true;
                 
             }else{
                 print(hit.collider);
@@ -84,6 +85,14 @@ public class PlayerMovement : MonoBehaviour
         {
             actualSpeed = speed;
         }
+
+        if(wantToStandUp)
+            if(!Physics.CheckCapsule(top.position, top.position + Vector3.up * 0.6f, 0.8f,LayerMask.GetMask("Ground")))
+            {
+                anim.SetTrigger("StandUp");
+                wantToStandUp = false;
+            }
+                
     }
 
     private void FixedUpdate()
