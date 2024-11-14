@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
@@ -28,9 +29,15 @@ public class PlayerMovement : MonoBehaviour
 
     public Animator anim;
 
-    public float accelerationForce = 10;
-    public float maxMovementSpeed = 50;
-    public float maxSpeed = 7;
+    public float normalAccelerationForce = 2;
+    public float sprintAccelerationForce = 3;
+    private float currentAccelerationForce = 2;
+
+  
+     public float normalMaxMovementSpeed = 3;
+    public float sprintMaxMovementSpeed = 4;
+     private float currentMaxMovementSpeed = 3;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -54,7 +61,7 @@ public class PlayerMovement : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.LeftControl))
         {
-            wantToStandUp = true;
+            wantToStandUp = false;
             anim.SetTrigger("Crouch");
         }
 
@@ -65,6 +72,7 @@ public class PlayerMovement : MonoBehaviour
             if(Physics.CheckCapsule(top.position, top.position + Vector3.up * 0.6f, 0.8f,LayerMask.GetMask("Ground")))
             {
                 Debug.Log("Can't stand up");
+                wantToStandUp = true;
                 
             }else{
                 print(hit.collider);
@@ -76,14 +84,31 @@ public class PlayerMovement : MonoBehaviour
         vertical = Input.GetAxis("Vertical");
         horizontal = Input.GetAxis("Horizontal");
 
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            actualSpeed = sprintSpeed;
+            Debug.Log("sprint");
+
+            currentAccelerationForce = sprintAccelerationForce;
+            currentMaxMovementSpeed = sprintMaxMovementSpeed;
         }
-        else
+
+        if(Input.GetKeyUp(KeyCode.LeftShift))
         {
-            actualSpeed = speed;
+
+            Debug.Log("walk");
+            currentAccelerationForce = normalAccelerationForce;
+            currentMaxMovementSpeed = normalMaxMovementSpeed;
         }
+
+        if(wantToStandUp)
+            if(!Physics.CheckCapsule(top.position, top.position + Vector3.up * 0.6f, 0.8f,LayerMask.GetMask("Ground")))
+            {
+                anim.SetTrigger("StandUp");
+                wantToStandUp = false;
+            }
+
+
+        Debug.Log(rb.velocity.magnitude + " ---- " + currentAccelerationForce + " ---- " + currentMaxMovementSpeed);      
     }
 
     private void FixedUpdate()
@@ -96,7 +121,7 @@ public class PlayerMovement : MonoBehaviour
     {
         moveDirection = orientation.forward * vertical + orientation.right * horizontal;
         //print(moveDirection);
-        Vector3 velocity = moveDirection * accelerationForce * Time.fixedDeltaTime * 1600;
+        Vector3 velocity = moveDirection * currentAccelerationForce * Time.fixedDeltaTime * 1600;
         
         rb.AddForce(velocity,ForceMode.Force);
     }
@@ -118,9 +143,9 @@ public class PlayerMovement : MonoBehaviour
         
         if(speedLocked)
         {
-            if(flatVel.magnitude > maxMovementSpeed)
+            if(flatVel.magnitude > currentMaxMovementSpeed)
             {
-            Vector3 limitedVel = flatVel.normalized * maxMovementSpeed;
+            Vector3 limitedVel = flatVel.normalized * currentMaxMovementSpeed;
             rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
             }
         }

@@ -5,6 +5,7 @@ using Unity.Burst.CompilerServices;
 using Unity.IO.LowLevel.Unsafe;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 using static UnityEditor.Progress;
 
 public class ItemManager : MonoBehaviour
@@ -16,12 +17,21 @@ public class ItemManager : MonoBehaviour
     public List<GameObject> Items = new List<GameObject>();
 
     public int ActualSlot;
-    public GameObject HoldingItem = null;
+    public GameObject HoldingItem = null;    
 
     public float aaa;
+
+
+    //Grabing Objects
+    public KeyCode grabButton = KeyCode.E;
+    Transform objectHeld = null;
+    public Transform objectSocket;
+
+
     void Start()
     {
         cam = Camera.main;
+
     }
 
     
@@ -64,6 +74,28 @@ public class ItemManager : MonoBehaviour
                 DropItem();
             }
         }
+
+        if(Input.GetKeyDown(grabButton))
+        {
+            if(objectHeld == null)
+            {
+                Debug.DrawRay(transform.position,transform.forward * 3, Color.red,3f);
+                if(Physics.Raycast(transform.position, transform.forward, out hit, 2f,LayerMask.GetMask("Ground")))
+                {
+                    if(hit.collider.tag == "Grab")
+                    {
+                        GrabObject(hit.transform);
+                    }
+                    
+                }
+            }else{
+                DropObject(objectHeld);
+            }
+
+        }
+
+
+
     }
 
     void GrabItem(GameObject newItem)
@@ -95,5 +127,20 @@ public class ItemManager : MonoBehaviour
         {
             HoldingItem.SetActive(true);
         }
+    }
+
+    void GrabObject(Transform thing) //Grabbing not usable objects
+    {
+        objectHeld = thing;
+        thing.transform.position = objectSocket.position;
+        thing.transform.SetParent(gameObject.transform.parent);
+        Destroy(thing.GetComponent<Rigidbody>());
+    }
+
+    void DropObject(Transform thing) //Dropping not usable objects
+    {
+        objectHeld = null;
+        thing.AddComponent<Rigidbody>();
+        thing.transform.SetParent(null);
     }
 }
