@@ -14,6 +14,8 @@ public class PlayerMovement : MonoBehaviour
 
     public Transform orientation;
     private Vector3 moveDirection;
+
+    public CapsuleCollider vaultCheck;
     private bool speedLocked = true;
     Vector3 velocity;
     Rigidbody rb;
@@ -86,16 +88,12 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            Debug.Log("sprint");
-
             currentAccelerationForce = sprintAccelerationForce;
             currentMaxMovementSpeed = sprintMaxMovementSpeed;
         }
 
         if(Input.GetKeyUp(KeyCode.LeftShift))
         {
-
-            Debug.Log("walk");
             currentAccelerationForce = normalAccelerationForce;
             currentMaxMovementSpeed = normalMaxMovementSpeed;
         }
@@ -105,10 +103,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 anim.SetTrigger("StandUp");
                 wantToStandUp = false;
-            }
-
-
-        Debug.Log(rb.velocity.magnitude + " ---- " + currentAccelerationForce + " ---- " + currentMaxMovementSpeed);      
+            }    
     }
 
     private void FixedUpdate()
