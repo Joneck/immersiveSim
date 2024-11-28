@@ -135,12 +135,14 @@ public class ItemManager : MonoBehaviour
         thing.transform.position = objectSocket.position;
         thing.transform.SetParent(gameObject.transform.parent);
         Destroy(thing.GetComponent<Rigidbody>());
+        thing.GetComponent<Collider>().isTrigger = true;
     }
 
     void DropObject(Transform thing) //Dropping not usable objects
     {
         objectHeld = null;
         thing.AddComponent<Rigidbody>();
+        thing.GetComponent<Collider>().isTrigger = false;
         thing.transform.SetParent(null);
     }
 }
