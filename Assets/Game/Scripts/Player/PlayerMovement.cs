@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
@@ -36,12 +37,15 @@ public class PlayerMovement : MonoBehaviour
     private float currentAccelerationForce = 2;
 
   
-     public float normalMaxMovementSpeed = 3;
+    public float normalMaxMovementSpeed = 3;
     public float sprintMaxMovementSpeed = 4;
-     private float currentMaxMovementSpeed = 3;
+    private float currentMaxMovementSpeed = 3;
+
+    public bool CanMove;
 
     private void Start()
     {
+        CanMove = true;
         rb = GetComponent<Rigidbody>();
         top = GameObject.Find("Top").GetComponent<Transform>();
     }
@@ -61,25 +65,27 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        if(Input.GetKeyDown(KeyCode.LeftControl))
+        if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             wantToStandUp = false;
             anim.SetTrigger("Crouch");
         }
 
-        if(Input.GetKeyUp(KeyCode.LeftControl))//
+        if (Input.GetKeyUp(KeyCode.LeftControl))//
         {
             wantToStandUp = false;
 
-            if(Physics.CheckCapsule(top.position, top.position + Vector3.up * 0.6f, 0.8f,LayerMask.GetMask("Ground")))
+            if (Physics.CheckCapsule(top.position, top.position + Vector3.up * 0.6f, 0.8f, LayerMask.GetMask("Ground")))
             {
                 Debug.Log("Can't stand up");
                 wantToStandUp = true;
-                
-            }else{
+
+            }
+            else
+            {
                 print(hit.collider);
                 anim.SetTrigger("StandUp");
-            }            
+            }
         }
 
 
@@ -92,24 +98,27 @@ public class PlayerMovement : MonoBehaviour
             currentMaxMovementSpeed = sprintMaxMovementSpeed;
         }
 
-        if(Input.GetKeyUp(KeyCode.LeftShift))
+        if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             currentAccelerationForce = normalAccelerationForce;
             currentMaxMovementSpeed = normalMaxMovementSpeed;
         }
 
-        if(wantToStandUp)
-            if(!Physics.CheckCapsule(top.position, top.position + Vector3.up * 0.6f, 0.8f,LayerMask.GetMask("Ground")))
+        if (wantToStandUp)
+            if (!Physics.CheckCapsule(top.position, top.position + Vector3.up * 0.6f, 0.8f, LayerMask.GetMask("Ground")))
             {
                 anim.SetTrigger("StandUp");
                 wantToStandUp = false;
-            }    
+            }
     }
 
     private void FixedUpdate()
     {
-        Movement();
-        SpeedControl();
+        if (CanMove)
+        {
+            Movement();
+            SpeedControl();
+        }
     }
 
     private void Movement()
