@@ -15,7 +15,9 @@ public class PlayerFinder : MonoBehaviour
     Vector3 playerPos;
     Vector3 dirToPlayer;
 
+    private Vector3 lookRotation;
     private Quaternion _lookRotation;
+    private Quaternion targetRotation;
     private float RotationSpeed = 3f;
     
     Color lineColor = Color.green;
@@ -24,7 +26,6 @@ public class PlayerFinder : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         playerPos  = Player.position;
-        Debug.Log(playerPos);
     }
 
     // Update is called once per frame
@@ -33,6 +34,7 @@ public class PlayerFinder : MonoBehaviour
         playerPos  = Player.position;
 
         dirToPlayer = (playerPos - transform.position).normalized;
+        dirToPlayer.y = 0f;
         // inne kąty w płaszczyźne inne w pionie 
         // kiedy wykryje gracza niech się do niego odwraca i porusza w jego kierunku
         // obraca się -> jeszcze poruszanie
@@ -52,11 +54,15 @@ public class PlayerFinder : MonoBehaviour
             if(Vector3.Angle(transform.forward, dirToPlayer) < 45)
             {
                 lineColor = Color.red;
-                _lookRotation = Quaternion.LookRotation(new Vector3(dirToPlayer.x,0,dirToPlayer.z).normalized);
-                transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, Time.deltaTime * RotationSpeed);
 
-                rb.velocity = new Vector3(dirToPlayer.x, 0, dirToPlayer.z).normalized;
-                Debug.Log(_lookRotation.eulerAngles);
+                lookRotation = Quaternion.LookRotation(dirToPlayer).eulerAngles; 
+                Vector3.Slerp(transform.rotation.eulerAngles, dirToPlayer, Time.deltaTime * RotationSpeed);
+
+                _lookRotation = Quaternion.LookRotation(dirToPlayer);
+                targetRotation = Quaternion.Euler(0f,_lookRotation.eulerAngles.y, 0f);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * RotationSpeed);
+
+                rb.velocity = dirToPlayer;
             }else{
                 lineColor = Color.green;
                 rb.velocity = Vector3.zero;
