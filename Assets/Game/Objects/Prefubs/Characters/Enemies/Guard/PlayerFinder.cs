@@ -8,12 +8,21 @@ using UnityEngine;
 public class PlayerFinder : MonoBehaviour
 {
 
+    //Components
+    Rigidbody rb;
+
     public Transform Player;
     Vector3 playerPos;
+    Vector3 dirToPlayer;
+
+    private Quaternion _lookRotation;
+    private float RotationSpeed = 3f;
+    
     Color lineColor = Color.green;
     // Start is called before the first frame update
     void Start()
     {
+        rb = GetComponent<Rigidbody>();
         playerPos  = Player.position;
         Debug.Log(playerPos);
     }
@@ -23,9 +32,10 @@ public class PlayerFinder : MonoBehaviour
     {
         playerPos  = Player.position;
 
-        // kąt pomiędzy transform.forward i transform.position - playerPos ma być mniejszy niż cośtam
-        // ale może tylko na płaszczyźnie X-Z 
+        dirToPlayer = (playerPos - transform.position).normalized;
+        // inne kąty w płaszczyźne inne w pionie 
         // kiedy wykryje gracza niech się do niego odwraca i porusza w jego kierunku
+        // obraca się -> jeszcze poruszanie
         
         float Angle = 45f;
         Vector3 rotatedVector1 = Quaternion.Euler(0, Angle, 0) * transform.forward;
@@ -35,11 +45,26 @@ public class PlayerFinder : MonoBehaviour
         Debug.DrawRay(transform.position, rotatedVector2, Color.yellow);
         Debug.DrawLine(transform.position,playerPos, lineColor);
 
-        if(Vector3.Angle(transform.forward, playerPos - transform.position) < 45)
+        
+
+        if(dirToPlayer.magnitude < 10)
         {
-            lineColor = Color.red;
+            if(Vector3.Angle(transform.forward, dirToPlayer) < 45)
+            {
+                lineColor = Color.red;
+                _lookRotation = Quaternion.LookRotation(new Vector3(dirToPlayer.x,0,dirToPlayer.z).normalized);
+                transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, Time.deltaTime * RotationSpeed);
+
+                rb.velocity = new Vector3(dirToPlayer.x, 0, dirToPlayer.z).normalized;
+                Debug.Log(_lookRotation.eulerAngles);
+            }else{
+                lineColor = Color.green;
+                rb.velocity = Vector3.zero;
+            }
         }else{
+            rb.velocity = Vector3.zero;
             lineColor = Color.green;
         }
+            
     }
 }
