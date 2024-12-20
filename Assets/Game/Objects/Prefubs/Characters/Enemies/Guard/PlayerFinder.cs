@@ -49,26 +49,26 @@ public class PlayerFinder : MonoBehaviour
 
         
 
-        if(dirToPlayer.magnitude < 10)
+        if(dirToPlayer.magnitude < 10) // make invisible throught walls
         {
+            Debug.Log("magnitude");
+            Debug.Log(Vector3.Angle(transform.forward, dirToPlayer));
             if(Vector3.Angle(transform.forward, dirToPlayer) < 45)
             {
                 lineColor = Color.red;
 
-                lookRotation = Quaternion.LookRotation(dirToPlayer).eulerAngles; 
-                Vector3.Slerp(transform.rotation.eulerAngles, dirToPlayer, Time.deltaTime * RotationSpeed);
-
                 _lookRotation = Quaternion.LookRotation(dirToPlayer);
                 targetRotation = Quaternion.Euler(0f,_lookRotation.eulerAngles.y, 0f);
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * RotationSpeed);
+                Debug.Log(transform.rotation);
 
-                rb.velocity = dirToPlayer;
+                //rb.velocity = dirToPlayer; IT'S THE PROBLEM freeze rotation works like shit so i have to think how to improve it
             }else{
                 lineColor = Color.green;
-                rb.velocity = Vector3.zero;
+                //rb.velocity = Vector3.zero;
             }
         }else{
-            rb.velocity = Vector3.zero;
+            //rb.velocity = Vector3.zero;
             lineColor = Color.green;
         }
             
